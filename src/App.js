@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const initialFriends = [
   {
     id: 118836,
@@ -18,14 +20,26 @@ const initialFriends = [
     balance: 0,
   },
 ];
-
+function Button({ children, onClick }) {
+  return (
+    <button className="button" onClick={onClick}>
+      {children}
+    </button>
+  );
+}
 export default function App() {
+  function handleShowFriendForm() {
+    setIsOpen((is) => !is);
+  }
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="app">
       <div className="sidebar">
         <FriendsList />
-        <FormAddFriend />
-        <Button>Add Friend</Button>
+        {isOpen && <FormAddFriend />}
+        <Button onClick={handleShowFriendForm}>
+          {!isOpen ? "Add Friend" : "Close"}
+        </Button>
       </div>
       <FormSplitBill />
     </div>
@@ -74,10 +88,6 @@ function FormAddFriend() {
       <Button>Add</Button>
     </form>
   );
-}
-
-function Button({ children }) {
-  return <button className="button">{children}</button>;
 }
 
 function FormSplitBill() {
